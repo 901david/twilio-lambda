@@ -11,11 +11,11 @@ pipeline {
             }
         }
 
-        // stage('Clean Zip') {
-        //     steps {
-        //         sh 'rm ./post_send_message_endpoint/index.zip'
-        //     }
-        // }
+        stage('Clean Zip') {
+            steps {
+                sh 'rm ./post_send_message_endpoint/index.zip'
+            }
+        }
 
         stage('Zip up Lambda') {
             steps {
