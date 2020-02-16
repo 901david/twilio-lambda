@@ -20,6 +20,6 @@ exports.handler = async (event, context, callback) => {
       type: body.type
     });
   } catch (err) {
-    if (error) callback(error, undefined);
+    if (err) callback(err, undefined);
   }
 };

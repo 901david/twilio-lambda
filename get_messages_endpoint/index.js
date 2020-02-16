@@ -13,6 +13,6 @@ exports.handler = async (event, context, callback) => {
       message: messages
     });
   } catch (err) {
-    if (error) callback(error, undefined);
+    if (err) callback(err, undefined);
   }
 };
