@@ -6,7 +6,7 @@ pipeline {
             steps {
                 sh '''
                 cd post_send_message_endpoint/
-                npm install
+                npm install --production
                 '''
             }
         }
