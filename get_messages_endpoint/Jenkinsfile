@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    stages {
+
+        stage('Zip up Lambda') {
+            steps {
+                sh'zip index.zip *'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'aws lambda update-function-code --function-name twilio-list-messages --zip-file fileb://index.zip'
+            }
+        }
+}
