@@ -2,6 +2,12 @@ pipeline {
     agent any
     stages {
 
+        stage('Clean Zip') {
+            steps {
+                sh 'rm -rf ./index.zip'
+            }
+        }
+
         stage('Zip up Lambda') {
             steps {
                 zip zipFile: 'get_messages_endpoint/index.zip', archive: false, dir: 'get_messages_endpoint'
