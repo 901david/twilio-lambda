@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    stages {
+
+        stage('Clean Zip') {
+            steps {
+                sh 'rm ./post_send_message_endpoint/index.zip'
+            }
+        }
+
+        stage('Zip up Lambda') {
+            steps {
+                zip zipFile: 'post_send_message_endpoint/index.zip', archive: false, dir: 'post_send_message_endpoint'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'aws lambda update-function-code --function-name twilio-list-messages --zip-file fileb://post_send_message_endpoint/index.zip'
+            }
+        }
+    }
+}
