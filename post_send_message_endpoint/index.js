@@ -11,7 +11,7 @@ exports.handler = async (event, context, callback) => {
     await twilio.messages.create({
       from,
       to,
-      body
+      body: body.message
     });
 
     callback(undefined, {
