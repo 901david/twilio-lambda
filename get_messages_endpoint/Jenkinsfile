@@ -13,4 +13,5 @@ pipeline {
                 sh 'aws lambda update-function-code --function-name twilio-list-messages --zip-file fileb://index.zip'
             }
         }
+    }
 }
