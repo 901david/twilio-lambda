@@ -10,7 +10,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'aws lambda update-function-code --function-name twilio-list-messages --zip-file fileb://index.zip'
+                sh 'aws lambda update-function-code --function-name twilio-list-messages --zip-file ./index.zip'
             }
         }
     }
