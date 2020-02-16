@@ -2,6 +2,15 @@ pipeline {
     agent any
     stages {
 
+        stage('install packages') {
+            steps {
+                sh '''
+                cd post_send_message_endpoint/
+                npm install
+                '''
+            }
+        }
+
         stage('Clean Zip') {
             steps {
                 sh 'rm ./post_send_message_endpoint/index.zip'
