@@ -4,7 +4,7 @@ pipeline {
 
         stage('Clean Zip') {
             steps {
-                sh 'rm -rf ./get_messages_endpoint/index.zip'
+                sh 'rm ./get_messages_endpoint/index.zip'
             }
         }
 
