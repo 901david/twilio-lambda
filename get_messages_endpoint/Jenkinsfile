@@ -4,7 +4,7 @@ pipeline {
 
         stage('Zip up Lambda') {
             steps {
-                sh'zip index.zip *'
+                zip zipFile: 'get_messages_endpoint/index.zip', archive: false, dir: 'get_messages_endpoint'
             }
         }
 
