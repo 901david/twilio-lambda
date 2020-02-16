@@ -6,12 +6,12 @@ const twilio = new Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 exports.handler = async (event, context, callback) => {
   try {
-    const { message, type } = event;
+    const { message, type, fromService } = event;
 
     await twilio.messages.create({
       from,
       to,
-      body: message
+      body: `Message Type: ${type} -- ${message} -- from ${fromService}`
     });
 
     callback(undefined, {
