@@ -21,3 +21,7 @@ export const TableWrapper = styled.div`
   margin-left: 5vw;
   margin-top: 10vh;
 `;
+
+export const Main = styled.main`
+  text-align: center;
+`;

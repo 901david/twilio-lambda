@@ -1,94 +1,64 @@
-import React from "react";
+import React, { useEffect, SyntheticEvent } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { AgGridReact } from "ag-grid-react";
+import { useMappedState } from "react-use-mapped-state";
 
-import { TwilioMessageItem } from "./TwilioMessageItem";
-import { SpinnerWrapper, TableWrapper } from "./App-Components";
+import { SpinnerWrapper, TableWrapper, Main } from "./App-Components";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
-import { ColDef, Grid } from "ag-grid-community";
+import { AppInitialState } from "./constants";
+import { LogsFilter } from "./LogsFilter";
 
-interface IAppState {
-  columnDefs: Array<ColDef>;
-  rowData: Array<TwilioMessageItem>;
-  messagesLoaded: boolean;
-}
-
-interface IAppProps {}
-
-class App extends React.Component<IAppProps, IAppState> {
-  constructor(props: IAppProps) {
-    super(props);
-    const defaultProps = {
-      sortable: true,
-      filter: true,
-      resizable: true
-    };
-    this.state = {
-      columnDefs: [
-        { headerName: "Account SID", field: "accountSid", ...defaultProps },
-        { headerName: "Body", field: "body", ...defaultProps },
-        { headerName: "Date Created", field: "dateCreated", ...defaultProps },
-        { headerName: "Date Sent", field: "dateSent", ...defaultProps },
-        { headerName: "Direction", field: "direction", ...defaultProps },
-        { headerName: "Error Code", field: "errorCode", ...defaultProps },
-        { headerName: "Error Message", field: "errorMessage", ...defaultProps },
-        { headerName: "From", field: "from", ...defaultProps },
-        {
-          headerName: "Messaging Service SID",
-          field: "messagingServiceSid",
-          ...defaultProps
-        },
-        { headerName: "Num Media", field: "numMedia", ...defaultProps },
-        { headerName: "Num Segments", field: "numSegments", ...defaultProps },
-        { headerName: "Price", field: "price", ...defaultProps },
-        { headerName: "SID", field: "sid", ...defaultProps },
-        { headerName: "Status", field: "status", ...defaultProps },
-        { headerName: "To", field: "to", ...defaultProps },
-        { headerName: "URI", field: "uri", ...defaultProps }
-      ],
-      rowData: [],
-      messagesLoaded: false
-    };
-  }
-
-  componentDidMount() {
+const App: React.FC<{}> = () => {
+  const [
+    { messagesLoaded, columnDefs, rowData, inputText },
+    stateSetter
+  ] = useMappedState(AppInitialState);
+  useEffect(() => {
     axios
       .get("/messages")
       .then(({ data: messages }) => {
-        console.log(messages);
-        this.setState({ rowData: messages, messagesLoaded: true });
+        console.log("Are these messages?", messages);
+        stateSetter(["rowData", "messagesLoaded"], [messages, true]);
       })
       .catch(err => console.log(err));
-  }
+  });
 
-  onGridReady(GridApi: any) {
-    console.log(GridApi);
+  const onGridReady = (GridApi: any) => {
     GridApi.api.sizeColumnsToFit();
-  }
+  };
 
-  render() {
-    if (!this.state.messagesLoaded)
-      return (
-        <SpinnerWrapper>
-          <FontAwesomeIcon icon={faSpinner} spin />
-        </SpinnerWrapper>
-      );
+  const onLogsFilter = (event: SyntheticEvent<Element, Event>) => {
+    //For some Reason value not on this type, but it is...
+    const target = event.target as any;
+    if (target) stateSetter("inputText", target.value);
+  };
 
+  if (!messagesLoaded)
     return (
+      <SpinnerWrapper>
+        <FontAwesomeIcon data-testid="loader-present" icon={faSpinner} spin />
+      </SpinnerWrapper>
+    );
+
+  return (
+    <Main>
+      <h1>Twilio Lambda Logs</h1>
+      <LogsFilter onFilter={onLogsFilter} inputText={inputText} />
       <TableWrapper className="ag-theme-balham">
         <AgGridReact
-          columnDefs={this.state.columnDefs}
-          rowData={this.state.rowData}
-          onGridReady={this.onGridReady}
+          columnDefs={columnDefs}
+          rowData={rowData}
+          onGridReady={onGridReady}
           animateRows
+          quickFilterText={inputText}
         ></AgGridReact>
       </TableWrapper>
-    );
-  }
-}
+    </Main>
+  );
+};
 
 export default App;
