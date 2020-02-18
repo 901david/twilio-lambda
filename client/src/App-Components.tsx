@@ -16,10 +16,15 @@ export const SpinnerWrapper = styled.div`
 `;
 
 export const TableWrapper = styled.div`
-  height: 80vh;
+  height: 60vh;
   width: 90vw;
   margin-left: 5vw;
   margin-top: 10vh;
+  overflow: scroll;
+
+  .ag-header-cell-label {
+    ${flexCenteredBoth}
+  }
 `;
 
 export const Main = styled.main`

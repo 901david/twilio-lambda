@@ -3,7 +3,7 @@ const htmlRouter = express.Router();
 const { join } = require("path");
 
 htmlRouter.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "dist", "index.html"));
+  res.sendFile(join(__dirname, "..", "dist", "index.html"));
 });
 
 module.exports = htmlRouter;

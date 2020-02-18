@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const { PORT } = process.env;
+const PORT = process.env.PORT || 5005;
 const htmlRouter = require("./routes/htmlRoutes");
 const twilioRouter = require("./routes/twilioRoutes");
 const morgan = require("morgan");
@@ -9,6 +9,8 @@ const morgan = require("morgan");
 morgan("combined");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static("./dist"));
 
 app.use(twilioRouter);
 app.use(htmlRouter);

@@ -21,15 +21,10 @@ const App: React.FC<{}> = () => {
     axios
       .get("/messages")
       .then(({ data: messages }) => {
-        console.log("Are these messages?", messages);
         stateSetter(["rowData", "messagesLoaded"], [messages, true]);
       })
       .catch(err => console.log(err));
-  });
-
-  const onGridReady = (GridApi: any) => {
-    GridApi.api.sizeColumnsToFit();
-  };
+  }, []);
 
   const onLogsFilter = (event: SyntheticEvent<Element, Event>) => {
     //For some Reason value not on this type, but it is...
@@ -52,7 +47,6 @@ const App: React.FC<{}> = () => {
         <AgGridReact
           columnDefs={columnDefs}
           rowData={rowData}
-          onGridReady={onGridReady}
           animateRows
           quickFilterText={inputText}
         ></AgGridReact>
