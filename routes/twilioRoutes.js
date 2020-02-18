@@ -9,6 +9,11 @@ const Anonymizer = new DataAnonymizer({
 const { API_GATEWAY_ENDPOINT, API_GATEWAY_SECRET } = process.env;
 
 twilioRouter.get("/messages", async (req, res) => {
+  if (API_GATEWAY_SECRET === undefined) {
+    res.sendStatus(403);
+    return;
+  }
+
   try {
     const results = await axios.get(API_GATEWAY_ENDPOINT, {
       headers: { "x-api-key": API_GATEWAY_SECRET }

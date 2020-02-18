@@ -1,13 +1,6 @@
 import { ColDef } from "ag-grid-community";
 import { TwilioMessageItem } from "./TwilioMessageItem";
 
-interface IAppInitialState {
-  columnDefs: Array<ColDef>;
-  rowData: Array<TwilioMessageItem>;
-  messagesLoaded: boolean;
-  inputText: "";
-}
-
 export const columnDefs = [
   {
     headerName: "Account SID",
@@ -152,9 +145,18 @@ export const columnDefs = [
   }
 ];
 
+interface IAppInitialState {
+  columnDefs: Array<ColDef>;
+  rowData: Array<TwilioMessageItem>;
+  messagesLoaded: boolean;
+  inputText: string;
+  isMissingApiKey: boolean;
+}
+
 export const AppInitialState: IAppInitialState = {
   columnDefs,
   rowData: [],
   messagesLoaded: false,
-  inputText: ""
+  inputText: "",
+  isMissingApiKey: false
 };

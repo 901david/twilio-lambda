@@ -14,7 +14,7 @@ import { LogsFilter } from "./LogsFilter";
 
 const App: React.FC<{}> = () => {
   const [
-    { messagesLoaded, columnDefs, rowData, inputText },
+    { messagesLoaded, columnDefs, rowData, inputText, isMissingApiKey },
     stateSetter
   ] = useMappedState(AppInitialState);
   useEffect(() => {
@@ -23,7 +23,9 @@ const App: React.FC<{}> = () => {
       .then(({ data: messages }) => {
         stateSetter(["rowData", "messagesLoaded"], [messages, true]);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if (err.status === 403) stateSetter("isMissingApiKey", true);
+      });
   }, []);
 
   const onLogsFilter = (event: SyntheticEvent<Element, Event>) => {
@@ -31,6 +33,8 @@ const App: React.FC<{}> = () => {
     const target = event.target as any;
     if (target) stateSetter("inputText", target.value);
   };
+
+  if (isMissingApiKey) return <h1>No Api Key Present</h1>;
 
   if (!messagesLoaded)
     return (
