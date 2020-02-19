@@ -1,4 +1,4 @@
-# twilio-lambda
+# Twilio-Lambda
 
 ## About
 
@@ -17,6 +17,20 @@ I tried to use a wide range of tech stack and cloud technologies for this projec
 - Lambda
 - Jenkins
 
+## Screenshots
+
+Devs can be notified directly via SMS
+
+<img src="./screenshots/text.png" width="250">
+
+You can use the GUI to look at all the possible messages, errors, and warnings which are being sent out.
+
+<img src="./screenshots/gui.png" width="450">
+
+You can filter Rows by quick text, in addition to robust sorting and filtering which comes with Ag-Grid
+
+<img src="./screenshots/gui2.png" width="450">
+
 ## Deployment
 
 I used Jenkins to orchestrate all deployment for this project. I wrote individual Jenkins jobs for deploying the Lambda functions, and a deployment pipeline for the docker container on Heroku.
@@ -24,7 +38,3 @@ I used Jenkins to orchestrate all deployment for this project. I wrote individua
 ## Future Development
 
 This was more a fun experimenting with the API project, but I do think there are some really cool things you could do with this project. Like imagine when you get alerted via sms you could respond with different responses that would cause a particular action to occur on the resource that triggered the alert. There are lots of really interesting paths you can go down.
-
-## Usage
-
-If you wish to use the app yourself, you can download the [Docker image]()
