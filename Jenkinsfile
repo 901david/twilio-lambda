@@ -12,7 +12,8 @@ pipeline {
         stage('Using Heroku Credentials') {
             steps {
                 echo 'LOGGING INTO Heroku................'
-                sh'heroku container:login'
+                // sh'heroku container:login'
+                sh'cat ~/my_creds.txt | heroku login --interactive --username 4990814 --password-stdin'
             }
         }
 
